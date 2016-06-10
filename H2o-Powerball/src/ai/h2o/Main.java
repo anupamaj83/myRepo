@@ -13,6 +13,7 @@ public class Main {
         // Start time of the program
         long startTime = System.currentTimeMillis();
         int winningSeed_count = 0;
+        int total_pb_number_count = 0;
         Set<Long> winningSeeds = new HashSet<Long>();
 
         // Get processors
@@ -31,7 +32,7 @@ public class Main {
             try {
                 taskObj.join();
                 winningSeed_count = winningSeed_count+ taskObj.getWinningSeeds().keySet().size();
-
+                total_pb_number_count = total_pb_number_count + taskObj.getTotalPowerBallSetsGenerated();
                 for (Long aLong : taskObj.getWinningSeeds().keySet()) {
 
                     /* Test the winning seeds before reporting */
@@ -56,7 +57,7 @@ public class Main {
                 System.out.print("\n"+winningSeed);
             }
         }
-
+        System.out.print("\nTotal no. of powerball sequences generated : "+ total_pb_number_count);
 
 
 

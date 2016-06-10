@@ -52,7 +52,7 @@ public class PowerBallTask extends Thread {
     static AtomicLong seed;
     final long MAXTIME = 10 * 60 * 1000; // 10 MINUTE testing
     int winning_powerball = 10;
-    int total_pb_number = 0;
+    private int total_pb_number = 0;
     Integer[] winning_whiteballs = new Integer[]{4, 8, 19, 27, 34};
     Integer[] ex_whiteballs = new Integer[]{19, 8, 4, 27, 34};
     List<PowerBallData> dataList = new LinkedList<>();
@@ -60,8 +60,7 @@ public class PowerBallTask extends Thread {
 
     static {
         seed = new AtomicLong();
-        //seed.set(29965454150L); // reset to 29965454150L for testing purpose.
-
+        seed.set(29965454150L);
     }
 
     public PowerBallTask(int _taskId, long _starttime) {
@@ -100,7 +99,7 @@ public class PowerBallTask extends Thread {
         //MersenneTwister rng = new MersenneTwister(iseed);
         Random rng = new Random(iseed);
         int count = 0;
-        while (count < 10) {
+        while (count < 10) { // 10 is some magic number here. Need to come up with a more robust logic
             int WB1 = rng.nextInt(69) + 1;
             int WB2 = rng.nextInt(69) + 1;
             int WB3 = rng.nextInt(69) + 1;
@@ -109,8 +108,7 @@ public class PowerBallTask extends Thread {
             int PB = rng.nextInt(26) + 1;
             Set<Integer> collisionCheck = new HashSet<Integer>(Arrays.asList(new Integer[]{WB1, WB2, WB3, WB4, WB5}));
 
-            /* check if PB is winning PB, only then check for collision check and proceed */
-
+            /* check if PB is winning PB, only then Add to list to verify other entries */
                 if (collisionCheck.size() == 5) {
                     // We are using the [Rejection sampling](https://en.wikipedia.org/wiki/Rejection_sampling) strategy here: if
                     // the numbers are all distinct then we return the sample generated. Otherwise we just draw again (and again,
@@ -218,6 +216,8 @@ public class PowerBallTask extends Thread {
     public Map<Long,Integer> getWinningSeeds(){
         return winningSeeds;
     }
+
+    public int getTotalPowerBallSetsGenerated() { return total_pb_number;}
 
     public void performCompare(List<PowerBallData> dataList ) {
 
