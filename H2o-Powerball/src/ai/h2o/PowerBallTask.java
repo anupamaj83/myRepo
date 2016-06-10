@@ -60,7 +60,7 @@ public class PowerBallTask extends Thread {
 
     static {
         seed = new AtomicLong();
-        seed.set(29965454150L);
+        //seed.set(29965454150L); // reset to 29965454150L for testing purpose.
 
     }
 
